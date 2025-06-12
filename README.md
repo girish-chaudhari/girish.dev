@@ -1,6 +1,6 @@
 <div>
   <h1>
-    Girish Kusnadi
+    Girish Chaudhari
     &middot;
     <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fwww.girish.dev"/>
     <img src="https://img.shields.io/github/deployments/enjidev/girish.dev/production?label=production&style=flat-square"/>

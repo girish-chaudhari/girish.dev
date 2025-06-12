@@ -241,7 +241,7 @@ function Footer() {
           )}
         >
           <div className={clsx('font-semibold')}>
-            &copy; {dayjs().format('YYYY')}, Girish Kusnadi
+            &copy; {dayjs().format('YYYY')}, Girish Chaudhari
           </div>
           <div className={clsx('text-slate-500', 'dark:text-slate-400')}>
             <LastUpdate />

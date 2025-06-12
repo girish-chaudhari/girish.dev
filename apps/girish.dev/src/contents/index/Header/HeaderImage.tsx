@@ -53,7 +53,7 @@ function HeaderImage() {
             animate={controlsHeaderImage}
           >
             <Image
-              alt="Girish Kusnadi Illustration"
+              alt="Girish Chaudhari Illustration"
               src="/assets/images/me.png"
               width={457}
               height={526}
