@@ -13,7 +13,7 @@ import dayjs from '@/utils/dayjs';
 function LastUpdate() {
   return (
     <a
-      href="https://github.com/enjidev/enji.dev"
+      href="https://github.com/enjidev/girish.dev"
       target="_blank"
       rel="noreferrer nofollow"
       className={clsx('hover:underline')}
@@ -29,6 +29,24 @@ interface FooterLinkProps {
   label?: 'new' | 'soon';
   isInternal?: boolean;
 }
+
+export const FOOTER_ICONS = [
+  {
+    name: 'Twitter',
+    href: 'https://twitter.com/enjidev',
+    icon: <TwitterIcon className={clsx('h-5 w-5')} />,
+  },
+  {
+    name: 'GitHub',
+    href: 'https://github.com/enjidev',
+    icon: <GitHubIcon className={clsx('h-5 w-5')} />,
+  },
+  // {
+  //   name: 'Figma',
+  //   href: 'https://figma.com/@enjidev',
+  //   icon: <FigmaIcon className={clsx('h-5 w-5')} />,
+  // },
+];
 
 function FooterLink({
   title,
@@ -112,46 +130,24 @@ function FooterDescription() {
         About Me
       </div>
       <p className={clsx('mb-4 font-normal leading-relaxed')}>
-        I&apos;m Enji, a <strong>front-end developer</strong> who loves
+        I&apos;m Girish, a <strong>front-end developer</strong> who loves
         intuitive, clean and modern UI design.
       </p>
       <ul className={clsx('-ml-2 flex gap-1')}>
-        <li>
-          <a
-            href="https://twitter.com/enjidev"
-            target="_blank"
-            rel="noreferrer nofollow"
-            className={clsx('flex h-9 w-9 items-center justify-center')}
-            aria-label="My Twitter profile"
-            title="My Twitter profile"
-          >
-            <TwitterIcon className={clsx('h-5 w-5')} />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/enjidev"
-            target="_blank"
-            rel="noreferrer nofollow"
-            className={clsx('flex h-9 w-9 items-center justify-center')}
-            aria-label="My GitHub profile"
-            title="My GitHub profile"
-          >
-            <GitHubIcon className={clsx('h-5 w-5')} />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://figma.com/@enjidev"
-            target="_blank"
-            rel="noreferrer nofollow"
-            className={clsx('flex h-9 w-9 items-center justify-center')}
-            aria-label="My Figma profile"
-            title="My Figma profile"
-          >
-            <FigmaIcon className={clsx('h-5 w-5')} />
-          </a>
-        </li>
+        {FOOTER_ICONS.map(({ name, href, icon }) => (
+          <li key={name}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noreferrer nofollow"
+              className={clsx('flex h-9 w-9 items-center justify-center')}
+              aria-label={`My ${name} profile`}
+              title={`My ${name} profile`}
+            >
+              {icon}
+            </a>
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -225,7 +221,7 @@ function Footer() {
                     },
                     {
                       title: 'Source Code',
-                      href: 'https://github.com/enjidev/enji.dev',
+                      href: 'https://github.com/enjidev/girish.dev',
                       isInternal: false,
                     },
                     {
@@ -245,7 +241,7 @@ function Footer() {
           )}
         >
           <div className={clsx('font-semibold')}>
-            &copy; {dayjs().format('YYYY')}, Enji Kusnadi
+            &copy; {dayjs().format('YYYY')}, Girish Kusnadi
           </div>
           <div className={clsx('text-slate-500', 'dark:text-slate-400')}>
             <LastUpdate />

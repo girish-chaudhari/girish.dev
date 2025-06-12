@@ -21,7 +21,7 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  apps/enji.dev:
+  apps/girish.dev:
     dependencies:
       '@headlessui/react':
         specifier: ^1.7.7

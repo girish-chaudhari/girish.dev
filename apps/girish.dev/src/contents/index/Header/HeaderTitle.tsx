@@ -70,7 +70,7 @@ function HeaderTitle() {
         >
           I&apos;m{' '}
           <strong className={clsx('text-accent-600', 'dark:text-accent-500')}>
-            Enji
+            Girish
           </strong>{' '}
           Kusnadi,{' '}
         </m.span>

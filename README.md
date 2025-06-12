@@ -1,16 +1,16 @@
 <div>
   <h1>
-    Enji Kusnadi
+    Girish Kusnadi
     &middot;
-    <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fwww.enji.dev"/>
-    <img src="https://img.shields.io/github/deployments/enjidev/enji.dev/production?label=production&style=flat-square"/>
-    <img src="https://img.shields.io/github/commit-activity/m/enjidev/enji.dev?style=flat-square"/>
+    <img src="https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fwww.girish.dev"/>
+    <img src="https://img.shields.io/github/deployments/enjidev/girish.dev/production?label=production&style=flat-square"/>
+    <img src="https://img.shields.io/github/commit-activity/m/enjidev/girish.dev?style=flat-square"/>
   </h1>
 </div>
 
 A monorepo for my personal website and projects, built with Turborepo and pnpm.
 
-## 📘 [enji.dev](https://www.enji.dev)
+## 📘 [girish.dev](https://www.girish.dev)
 
 A personal website with a blog, project showcase, and work information.
 
@@ -36,13 +36,13 @@ git clone <your-fork>
 Navigate to the project's root directory:
 
 ```
-cd ./enji.dev
+cd ./girish.dev
 ```
 
 Next, copy the development version of the `env` file:
 
 ```
-cp ./apps/enji.dev/env.example ./apps/enji.dev/env.local
+cp ./apps/girish.dev/env.example ./apps/girish.dev/env.local
 ```
 
 Now, you have the `env.local` file ready for configuration:
