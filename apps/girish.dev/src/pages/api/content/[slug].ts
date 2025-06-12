@@ -30,8 +30,6 @@ export default async function handler(
         reactionsDetail.CLAPPING +
         reactionsDetail.THINKING;
 
-      console.log('meta', meta);
-
       res.status(200).json({
         meta: {
           shares: meta.shares,
