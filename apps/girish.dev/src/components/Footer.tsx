@@ -1,19 +1,14 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 
-import {
-  ExternalLink,
-  FigmaIcon,
-  GitHubIcon,
-  TwitterIcon,
-} from '@/components/Icons';
+import { ExternalLink, GitHubIcon, TwitterIcon } from '@/components/Icons';
 
 import dayjs from '@/utils/dayjs';
 
 function LastUpdate() {
   return (
     <a
-      href="https://github.com/enjidev/girish.dev"
+      href="https://github.com/girishc0007/girish.dev"
       target="_blank"
       rel="noreferrer nofollow"
       className={clsx('hover:underline')}
@@ -33,17 +28,17 @@ interface FooterLinkProps {
 export const FOOTER_ICONS = [
   {
     name: 'Twitter',
-    href: 'https://twitter.com/enjidev',
+    href: 'https://twitter.com/girishc0007',
     icon: <TwitterIcon className={clsx('h-5 w-5')} />,
   },
   {
     name: 'GitHub',
-    href: 'https://github.com/enjidev',
+    href: 'https://github.com/girishc0007',
     icon: <GitHubIcon className={clsx('h-5 w-5')} />,
   },
   // {
   //   name: 'Figma',
-  //   href: 'https://figma.com/@enjidev',
+  //   href: 'https://figma.com/@girishc0007',
   //   icon: <FigmaIcon className={clsx('h-5 w-5')} />,
   // },
 ];
@@ -130,7 +125,7 @@ function FooterDescription() {
         About Me
       </div>
       <p className={clsx('mb-4 font-normal leading-relaxed')}>
-        I&apos;m Girish, a <strong>front-end developer</strong> who loves
+        I&apos;m Girish, a <strong>Senior software developer</strong> who loves
         intuitive, clean and modern UI design.
       </p>
       <ul className={clsx('-ml-2 flex gap-1')}>
@@ -194,10 +189,10 @@ function Footer() {
                 <FooterGroup
                   title="Learn"
                   links={[
-                    {
-                      title: 'Docs',
-                      href: '/docs',
-                    },
+                    // {
+                    //   title: 'Docs',
+                    //   href: '/docs',
+                    // },
                     {
                       title: 'Personal Blog',
                       href: '/blog',
@@ -221,13 +216,13 @@ function Footer() {
                     },
                     {
                       title: 'Source Code',
-                      href: 'https://github.com/enjidev/girish.dev',
+                      href: 'https://github.com/girishc0007/girish.dev',
                       isInternal: false,
                     },
-                    {
-                      title: 'Credits',
-                      href: '/credits',
-                    },
+                    // {
+                    //   title: 'Credits',
+                    //   href: '/credits',
+                    // },
                   ]}
                 />
               </div>
