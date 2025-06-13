@@ -1,7 +1,7 @@
 ---
 title: Tailwind CSS Best Practices
-lang: en-IN
-description: Tailwind CSS best practices, tips, and coding styles I personally follow to stay efficient and consistent.
+description: Tailwind CSS best practices, tips dan coding style yang sering saya implementasikan.
+lang: id
 date: '2023-02-06'
 tags:
   - tailwindcss
@@ -14,19 +14,21 @@ import { DnD, Dont, Do } from '@/components/mdx/TIL';
 import { QuickView } from '@/components/mdx/Link';
 import CodeGroup from '@/components/mdx/CodeGroup';
 
-Hello there! Already using or planning to try **Tailwind CSS**? Then you’ve landed at the right place. In this post, I’ll be sharing a few important practices and coding styles that have helped me use Tailwind CSS more comfortably and efficiently.
+Halo! Sudah atau mau mencoba **Tailwind CSS**? pas banget kesini! saya akan membagikan beberapa hal yang cukup penting seputar Tailwind CSS.
 
-Strictly speaking, these aren’t necessarily "best practices," but rather my personal approach and styling conventions — hopefully, you find something helpful.
+Sebenarnya bukan '**best practices**' juga sih. Lebih ke coding style dan beberapa tips yang membuat saya nyaman dalam menggunakan Tailwind CSS.
+
+Opiniated sih jatuhnya, tapi siapa tau ada yang bisa diambil, positifnya, ya kan.
 
 ---
 
 ## Coding Style
 
-Here’s how I structure my Tailwind CSS classes — I typically focus on three areas: sorting, splitting, and grouping.
+Berikut coding style untuk penulisan Tailwind CSS classes yang sering saya gunakan, dibagi menjadi 3 point penting: sorting, splitting dan grouping.
 
 ### Sorting
 
-Take a look at this `Button` component example — the class list is quite long 😂
+Coba liat dulu contoh komponen `Button` berikut, panjang banget classnya 😂
 
 ```html
 <button
@@ -36,21 +38,21 @@ Take a look at this `Button` component example — the class list is quite long 
 </button>
 ```
 
-When dealing with long utility chains, sorting classes becomes quite important.
+Karena berurusan dengan nama class yang akan sangat banyak hanya untuk sebuah element, sorting class cukup penting.
 
-Thankfully, Tailwind CSS provides a [Prettier plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) that helps auto-sort these classes.
+Untungnya, Tailwind CSS sendiri sudah menyiapkan [plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) Prettier untuk menghandle urusan ini.
 
-Consistent class ordering makes future maintenance much easier.
+Konsistensi urutan class akan memudahkan dalam proses maintenance kedepannya.
 
-In the example above, `border` and `border-transparent` are next to each other, making it easier to modify border-related styles.
+Misal, yang ada dalam contoh, dengan class yang sudah di sortir, kita bisa dengan mudah mengubah `border` dan `border-transparent` karena saling berdampingan.
 
-Likewise, `hover:` and breakpoint-specific classes like `md:` are typically easier to locate when consistently placed.
+Atau dapat dengan mudah mengubah styles `hover:` atau **breakpoints** karena biasanya muncul di bagian akhir class.
 
 ### Splitting
 
-To make things neater, I usually split the classes into multiple strings/lines. I personally use [clsx](https://github.com/lukeed/clsx) for this purpose.
+Untuk membuatnya lebih rapi, kita bisa split classnya jadi beberapa string atau line (agar tidak terlihat terlalu panjang). Kalau saya sih biasa pake [clsx](https://github.com/lukeed/clsx).
 
-Here's a cleaner version of the same `Button` component:
+Contoh sebuah komponen `Button` yang sudah menggunakan `clsx`:
 
 ```tsx
 function Button({ children }) {
@@ -69,14 +71,16 @@ function Button({ children }) {
 
 ### Grouping
 
-Once split, grouping helps improve readability. Here’s the pattern I usually follow:
+Setelah classnya terpisah, kita bisa 'grouping' untuk membuatnya lebih rapi dan juga nyaman dibaca.
 
-- **Group 1:** Default utilities
-- **Group 2:** Breakpoints (e.g., `md:`)
-- **Group 3:** Dark mode variants
-- **Group 4:** Other variants like `hover:`
+Biasanya, pattern yang saya terapkan adalah:
 
-Applied to the same button:
+- `group 1`: default utilites
+- `group 2`: breakpoints utilities
+- `group 3`: dark mode utilites
+- `group 4`: other variants utilites
+
+Kita implementasikan menggunakan komponen `Button` tadi:
 
 ```tsx
 function Button({ children }) {
@@ -99,7 +103,7 @@ function Button({ children }) {
 }
 ```
 
-The same applies when using CSS classes:
+Sama halnya dengan komponen CSS:
 
 ```css
 .button {
@@ -114,17 +118,17 @@ The same applies when using CSS classes:
 }
 ```
 
-Feel free to adjust or expand the groups based on your own preference — the key is consistency.
+Group 2,3 dan 4 sebenarnya masih bisa di improve atau disesuaikan lagi sesuai keinginan, hanya pastikan untuk membuatnya konsisten di setiap penulisan.
 
 ---
 
 ## Tips
 
-### Use Reusable Components
+### Gunakan Komponen
 
-If multiple elements share common styling (like buttons), consider extracting them into reusable components.
+Jika dirasa beberapa element mempunyai styles yang sama, bisa di split jadi komponen tersendiri, seperti button yang biasanya memiliki styles yang sama.
 
-Since I use React, I often write something like:
+Karena saya menggunakan React, saya bisa saja membuat komponen seperti:
 
 ```tsx
 function Button({ children }) {
@@ -143,34 +147,65 @@ function Button({ children }) {
 }
 ```
 
-### Use Class-Based Styling (for Static Sites)
+### Gunakan Class Component
 
-Especially useful when building static sites — utility-heavy HTML can become bloated quickly. Using class components can reduce output size.
+Sama seperti komponen, tapi cara ini digunakan untuk optimasi ukuran atau output file html, khususnya untuk static site.
 
-Here’s an example with multiple pagination buttons using repetitive styles:
+Karena nama class yang banyak dari Tailwind CSS akan menambahkan beban juga pada HTML.
 
-```html
+Coba lihat contoh sederhana, penggunaan set utility yang sama pada button pagination berikut:
+
+```html {copy:false} {footer:false}
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  Previous
+</button>
 <button
   class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
 >
   1
 </button>
-<!-- repeated for 2, 3, 4, etc. -->
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  2
+</button>
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  3
+</button>
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  4
+</button>
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  Next
+</button>
 ```
 
-Now, using a class component:
+Bayangkan jika dalam satu file HTML memiliki beberapa pagination juga, ukuran file HTMLnya pasti akan lebih besar!
+
+Untuk mengurangi ukuran file size dari HTML, kita bisa ubah jadi class component. Kurang lebih penggunaannya seperti ini:
 
 <CodeGroup variant="file">
 
-```html {title:index.html}
+```html {copy:false} {footer:false} {title:index.html}
+<button class="pagination-button">Previous</button>
 <button class="pagination-button">1</button>
 <button class="pagination-button">2</button>
-<!-- and so on -->
+<button class="pagination-button">3</button>
+<button class="pagination-button">4</button>
+<button class="pagination-button">Next</button>
 ```
 
-```css {title:styles.css}
+```css {copy:false} {footer:false} {title:styles.css}
 .pagination-button {
-  @apply inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150;
+  @apply inline-flex h-10 items-center justify-center gap-1.5 rounded-md border;@apply border-transparent bg-purple-600 px-4 text-center text-sm font-bold;@apply text-white transition duration-150';
   @apply md:rounded-xl;
   @apply dark:bg-purple-600 dark:hover:bg-purple-500;
   @apply hover:bg-purple-700;
@@ -179,39 +214,75 @@ Now, using a class component:
 
 </CodeGroup>
 
-I've already talked about this in a previous post — <QuickView href="/blog/about-nextjs-tailwind-css-and-framer-motion">see this section</QuickView> (HTML load performance).
+Sudah pernah saya bahas <QuickView href="/blog/tentang-nextjs-tailwind-css-dan-framer-motion#tailwind-css">disini</QuickView> (point "Beban ke HTML makin berat").
 
-### Avoid `!important`
+### Penggunaan !important
 
-Like in regular CSS, try to avoid using `!important` in Tailwind. It can lead to maintenance issues.
+Layaknya CSS pada umumnya, sebisa mungkin hindari penggunaan `!important`.
 
-Tailwind allows `!important` via the `!` prefix: `!p-2 !px-3`. Avoid overusing it.
+Di Tailwind CSS, `!important` sendiri bisa dengan menambahkan prefix `!` pada setiap utility class, contoh `!p-2 !px-3`.
 
-Once you start using it, it often creeps into other classes and becomes difficult to manage.
+Sebisa mungkin hindari! Sekali terjebak menggunakan, mungkin semua utility kita akan berakhir dengan banyaknya `!important` dan sangat sulit untuk melakukan perubahan styles kedepannya.
 
-### Conditional Class Names
+### Conditional Class
 
-{/\* prettier-ignore-start \*/}
+{/* prettier-ignore-start */}
 
 <Dont>
-  ```tsx
-  <div className={`text-black ${dark && 'text-white'}`}>Hello, World!</div>
+  ```tsx {copy:false} {footer:false}
+  <div className={`text-black ${dark && 'text-white'}`}>
+    Hello, World!
+  </div>
   ```
 </Dont>
 <Do>
-  ```tsx
-  <div className={dark ? 'text-white' : 'text-black'}>Hello, World!</div>
+  ```tsx {copy:false} {footer:false}
+  <div className={dark ? 'text-white' : 'text-black'}>
+    Hello, World!
+  </div>
   ```
 </Do>
 
-{/\* prettier-ignore-end \*/}
+{/* prettier-ignore-end */}
 
-Let me explain.
+Let me explain a bit.
 
-In the first example, if `dark` is true, the result is `text-black text-white` — which might cause issues since CSS specificity determines which one takes precedence.
+Katakanlah kita pake cara yang pertama dan `dark` nilainya `true`, maka classnya akan jadi seperti ini `text-black text-white`.
 
-Depending on the build order, your text may still appear black even though `text-white` is present — because `text-black` might be loaded after it.
+Dalam beberapa kasus, mungkin hasilnya ya sesuai harapan. Tapi, ketika beberapa kasus juga, mungkin bisa jadi masalah!
 
-Use ternary conditions to avoid this kind of issue.
+Bisa saja, teks tetap berwarna hitam meski nilai `dark`nya true.
 
-You can test this on [Tailwind Play](https://play.tailwindcss.com/iGRNZh3mOT).
+Ko bisa? Let the code speak:
+
+```html
+<!-- Some elements within the project. -->
+
+<div class="text-white">White!</div>
+<div class="text-black">Black!</div>
+
+<!-- 
+  The above elements will generate CSS in the following order:
+
+  .text-white {
+    ...
+  }
+  .text-black {
+    ...
+  }
+-->
+
+<!--
+  Imagine that "dark" is set to true, and use a class defined as follows for conditional class:
+      class={`text-black ${dark && 'text-white'}`}
+-->
+<div class="text-black text-white">Still black? CSS Specificity!</div>
+
+<!-- 
+  That's because, in this example, both "text-black" and "text-white" have the same CSS properties and specificity.
+  
+  On the other hand, the last one defined in the CSS file (in the previously generated CSS) will take precedence!
+-->
+```
+
+[Tailwind Play](https://play.tailwindcss.com/iGRNZh3mOT)

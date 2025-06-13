@@ -1,277 +1,275 @@
 ---
-title: Multiple Reactions Feature
-description: Building a multiple reactions feature 👏😲🧐 in Next.js (MongoDB, Prisma, SWR)
-date: '2023-01-15'
-lang: en
+title: Tentang Next.js dan Tailwind CSS 🔥
+description: First impression menggunakan Next.js, Tailwind CSS, Framer Motion setelah tiga bulan.
+date: '2023-01-22'
+lang: id
 tags:
-  - features
-  - concept
-category: features
+  - next
+  - tailwindcss
+  - framer-motion
+category: story
 ---
 
-import IH from '@/components/mdx/InlineHighlight';
-import Reactions from '@/components/Reactions';
+import CodeGroup from '@/components/mdx/CodeGroup';
+import { QuickView } from '@/components/mdx/Link';
 
-[TL;DR](#final-result)
+Halo halo, udah seminggu aja nih semenjak postingan saya yang sebelumnya <QuickView href="/blog/fitur-multiple-reactions-di-nextjs">Fitur Multiple Reactions</QuickView>.
 
-I didn’t expect that building this feature alone would take nearly three days — but then again, I did start from scratch. Yes, this article is **just** about building a reactions feature, the one you see below 😁
+Kali ini ngga akan bahas fitur baru, tapi lebih ke cerita gimana sih rasanya menggunakan Next.js, Tailwind CSS, Framer Motion setelah sekitar tiga bulan lamanya.
 
-I didn’t start with proper analysis. I jumped straight into database creation, trial & error, and a bunch of refactoring. Not because I couldn’t — just didn’t want to wait. I really just wanted to start coding 😂
+Yap, tiga bulan. Semua teknologi tersebut baru saya gunakan untuk **pertama** kalinya dalam pembuatan website ini yang dimulai sekitar tanggal 23 Oktober 2022.
 
-In this article, I’ll break down what this feature includes and the design concept — but this won’t be a step-by-step tutorial.
+Semuanya berawal dari [Tweet ini](https://twitter.com/enjidev/status/1583866582798721024).
 
-Hopefully, this gives you inspiration or a base if you ever plan to implement something similar. Take whatever you find useful!
+Ini saya cerita aja ya, berdasarkan apa yang saya rasakan. Ngga ngebandingin sama tech stacks yang sejenis karena emang belum pernah pake yang lain sih hehe.
 
-Let’s dive right in…
-
----
-
-## Features
-
-The first step was to imagine what this reactions feature should look like at a high level.
-
-Here’s what I came up with:
-
-- **Multiple Reactions**
-
-  There are <IH>claps</IH>, <IH color="blue">wow</IH>, etc. The goal is to make adding new reactions easy in the future.
-
-  <br />
-
-- **Batch Reactions**
-
-  Users can give multiple reactions of the same type, e.g. 20x <IH>claps</IH>, 10x <IH color="blue">wow</IH>, etc.
-
-  <br />
-
-- **Section Reactions**
-
-  The system should track where in the article a user reacted, e.g. 10x <IH>claps</IH> under the section titled **'Features'** (like this one).
-
-  <br />
+Gas langsung ya..
 
 ---
 
-## Concept
+## Next.js
 
-Most of the time went into building the REST API, a lot of refactoring, and designing the database schema — essentially the backend work.
+Sebelumnya saya kalau bikin website React suka pake CRA, dan baru pake Next.js di website ini.
 
-Please note: I’m not a backend specialist, so some things may not be optimal ✌
+Jujur enak banget sih pake Next.js ini. Semua fitur penting —**yang saya butuhin**— udah disediain, DX nya mantepp, docsnya lengkap, tutorialnya to the point.
 
-### Database
+Yang paling keren tuh, support SSG dan SSR. Tapi ini beberapa fitur yang saya suka:
 
-Honestly, this was my first time working with databases again in three years. The last time was during my final year university project.
+### Routing
 
-First, I chose where to host the DB. I wasn’t particular about SQL vs NoSQL. I was open to experimenting, so I looked for free options and found **MongoDB Atlas** — the shared tier, which is good enough.
+Ini paling penting sih. Sudah support routing out-of-the-box. Bikin dynamic page juga kaya blog gampang banget.
 
-For the ORM, I used **Prisma** — which should make future migrations to a different DB much easier.
+Dan yang paling saya suka itu API Routesnya. Bikin API endpoint tinggal gunain API Routesnya, yang juga udah disediain. Jadi ngga perlu setup Express lagi.
 
-Let’s go through the schema. We’ll focus only on the reactions-related structure. I also track `views` and `shares`, but I’ve omitted them here.
+### Suport MDX
 
-First, a `ContentMeta` table to store post-related data.
+Gampang banget implementasi markdown atau mdx untuk blogging menggunakan `@next/mdx`.
 
-Since posts are built locally from MDX files, I don’t store titles, dates, or body content. Just the slug.
+Buat page biasa juga bisa, jadi bisa banget bikin page biasa formatnya mdx atau buat page yang kebanyakan konten 'writing'-nya.
 
-```ts
-model ContentMeta {
-  id        String
-  slug      String
-  createdAt DateTime
-}
+### Optimization
+
+Penggunaan font dan image sudah dioptimalkan oleh Next.js.
+
+Pake Google font tinggal import dari packagenya `@next/font`. Pake image udah support compression sama `srcset` otomatis.
+
+Engga enak gimana lagi coba?
+
+Sebenarnya banyak banget fitur-fitur kecil lainnya, kaya compilingnya cepet, i18n routing, static HTML export dll.
+
+Coba deh tengok tipis-tipis [docsnya](https://nextjs.org/docs/getting-started) atau sekalian gas cobain dulu aja.
+
+---
+
+## Tailwind CSS
+
+Coba liat dulu sample code ini (dari situs resminya [tailwindcss.com](https://tailwindcss.com/)), yang stylingnya pake Tailwind CSS:
+
+```html
+<figure class="rounded-xl bg-slate-100 p-8 md:flex md:p-0 dark:bg-slate-800">
+  <img
+    class="mx-auto h-24 w-24 rounded-full md:h-auto md:w-48 md:rounded-none"
+    src="/sarah-dayan.jpg"
+    alt=""
+    width="384"
+    height="512"
+  />
+  <div class="space-y-4 pt-6 text-center md:p-8 md:text-left">
+    <blockquote>
+      <p class="text-lg font-medium">
+        “Tailwind CSS is the only framework that I've seen scale on large teams.
+        It’s easy to customize, adapts to any design, and the build size is
+        tiny.”
+      </p>
+    </blockquote>
+    <figcaption class="font-medium">
+      <div class="text-sky-500 dark:text-sky-400">Sarah Dayan</div>
+      <div class="text-slate-700 dark:text-slate-500">
+        Staff Engineer, Algolia
+      </div>
+    </figcaption>
+  </div>
+</figure>
 ```
 
-The main table for reactions is this:
+Awalnya saya mikir kaya:
 
-```ts
-model Reaction {
-  id          String
-  type        ReactionType
-  section     String
-  count       Int
-  sessionId   String
-  createdAt   DateTime
-  contentId   String
-}
+> kok approach stylingnya aneh ya? messy banget HTML-nya? kalau kaya gitu kenapa gak pake iniline styles aja?
 
-enum ReactionType {
-  CLAPPING
-  THINKING
-  AMAZED
-}
-```
+Ah pokokna mah banyak ini-itu nya 😂
 
-Explanation:
+Tapi semenjak dapet proyekan freelance yang pake Tailwind CSS, mau gamau harus pake juga.
 
-- `type`:
-  This defines the type of reaction. I used a predefined enum `ReactionType` with values like `CLAPPING`, `THINKING`, and `AMAZED`.
+Eh ternyata, enak juga euy pake si Tailwind CSS teh. Saya coba dan terapin deh di pembuatan website ini.
 
-  You can add more by extending the enum. Alternatively, you could use a `String` if you want full emoji support.
+Enaknya gimana?
 
-  > Why not use a separate relation table for types?
-  > You could, but I wanted simpler queries and to benefit from enum type safety ✌
+- **Gaperlu gunti-ganti file buat styling**
 
-- `section`:
-  Stores the title of the section that was active when the user clicked the reaction.
+  Markup dan styles cukup di tempat yang sama. Gaperlu buka file css, nentuin nama class, nyari classnya apa yang mau diedit dll.
 
-  I use [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to observe headings, and the last intersecting one is assigned here.
+  Ini karena stylesnya nempel di HTML, jadi kalau mau bikin atau update komponen gampang dan cepet banget.
 
-- `count`:
-  This is for batching. Clicking doesn't immediately hit the API. It waits a few milliseconds and sends a single batch request.
+  Tinggal buka filenya, edit konten sekalian edit styles di tempat yang sama 🔥
 
-  For example, 10 clicks within a short time get bundled as `count: 10`.
+  <br />
 
-  This is more efficient — fewer requests, less DB storage.
+- **Berbeda dengan inline styles**
 
-- `sessionId`:
-  Identifies the user anonymously using their IP address.
+  Pemikiran awal saya salah ternyata emang beda sama ininine styles. Pake Tailwind CSS, di HTMLnya langsung ternyata saya bisa styling kaya efek `hover`, `focus` dll.
 
-  However, I **don’t** store raw IPs. I hash them, and salt them too, for extra privacy. Even I can’t see the original IP.
+  <br />
 
-  Sample code:
+- **Full CSS support**
 
-  ```ts
-  export const getSessionId = (req: NextApiRequest) => {
-    const ipAddress = req.headers['x-forwarded-for'] || 'localhost';
+  Hampir semua fitur CSS di cover semua sama Tailwind CSS. Bikin gradient, efek backdrop, grid, responsive design (breakpoints), dll.
 
-    const currentSessionId = createHash('md5')
-      .update(ipAddress + process.env.SALT_IP_ADDRESS, 'utf-8')
-      .digest('hex');
+  > Makin banyak dong utility classnya?
 
-    return currentSessionId;
-  };
+  Iya! tapi kalau pake VS Code, malah enak banget karena udah disediain VS Code extension, dimana kalau lagi edit HTML classnya, bakal muncul autocomplete list utility class Tailwind CSS nya!
+
+  <br />
+
+- **Shorthand Utilities**
+
+  Bisa pake class `inset-0` untuk CSS yang outputnya:
+
+  ```css {copy:false} {footer:false}
+  .inset-0 {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
   ```
 
-  Source: [GitHub helper](https://github.com/enjidev/girish.dev/blob/425e3c09c906c005a7e1d9efbf21b87906ffd443/apps/girish.dev/src/helpers/server.ts)
+  Atau masih banyak lagi kaya `x` dan `y` untuk shorthand kiri+kanan dan atas+bawah. Misal `inset-x-0`, `px-2`, `border-y-0` dll.
 
-  > Why do you need `sessionId`?
-  > It’s used to **limit** how many reactions a user can give. I group reactions by `type` and `sessionId`, sum up the `count`, and enforce a cap.
+  <br />
 
----
+- **Suport dark mode**
 
-### REST API
+  Tailwind CSS sudah menyediakan utility classes (variant) bernama `dark:` dimana bisa digunakan untuk styling dark mode.
 
-I only created one endpoint: `/reactions` with `POST` method. It receives `slug`, `type`, `section`, and `count`.
+  Misal:
 
-The frontend handles all data except for `sessionId`, which is generated during the API call.
+  ```html
+  <div class="text-black dark:text-white">Hello, World!</div>
+  ```
 
-One more endpoint `/content` returns all current reactions for a given `slug`, structured like this:
+  Tulisan 'Hello, World!' diatas akan berwarna hitam secara default dan warna putih di mode gelap atau dark mode.
 
-```json
-{
-  "meta": {
-    "reactionsDetail": {
-      "CLAPPING": 65,
-      "THINKING": 45,
-      "AMAZED": 48
-    }
-  },
-  "metaUser": {
-    "reactionsDetail": {
-      "CLAPPING": 15,
-      "THINKING": 15,
-      "AMAZED": 15
-    }
-  },
-  "metaSection": {
-    "features": {
-      "reactionsDetail": {
-        "CLAPPING": 0,
-        "THINKING": 4,
-        "AMAZED": 0
-      }
-    },
-    "database": {
-      "reactionsDetail": {
-        "CLAPPING": 0,
-        "THINKING": 0,
-        "AMAZED": 6
-      }
+  <br />
+
+- **Output size CSS-nya kecil**
+
+  Karena Tailwind CSS ini otomatis ngebundle utility class yang dipake aja, jadi outputnya kecil tergantung berapa banyak utility yang digunakan.
+
+  <br />
+
+Ada yang ngga enaknya? tentu ada.
+
+- **Classname yang panjang**
+
+  Ini sempet rame juga di Twitter 😂 Tapi saya akalin pake `clsx()` agar agak rapihan dikit. Penampakannya:
+
+  ```tsx
+  <nav
+    className={clsx(
+      'border-divider-light rounded-xl border bg-white',
+      'dark:border-divider-dark dark:bg-slate-900'
+    )}
+  ></nav>
+  ```
+
+  <br />
+
+- **Beban ke HTML makin berat**
+
+  Meski output CSS nya kecil, tapi justru output HTML nya yang jadi lebih gede. Karena class name yang panjang itu pasti nambah ukuran bit ke HTML ya kan.
+
+  Bisa sih diakalin, back to the old way, dimana kalau kira kira class nya banyak, apalagi dipake berulang-ulang (looping misal) bisa pake css class biasa.
+
+  Contoh kasus:
+
+  ```html
+  <div
+    class="text-accent-600 dark:text-accent-400 hover:text-accent-700 hover:dark:text-accent-300 flex h-9 items-center gap-1 rounded-xl px-2 text-[13px] font-bold dark:font-semibold"
+  >
+    Home
+  </div>
+  <div
+    class="text-accent-600 dark:text-accent-400 hover:text-accent-700 hover:dark:text-accent-300 flex h-9 items-center gap-1 rounded-xl px-2 text-[13px] font-bold dark:font-semibold"
+  >
+    Projects
+  </div>
+  <div
+    class="text-accent-600 dark:text-accent-400 hover:text-accent-700 hover:dark:text-accent-300 flex h-9 items-center gap-1 rounded-xl px-2 text-[13px] font-bold dark:font-semibold"
+  >
+    Blog
+  </div>
+  ```
+
+  Saya ubah jadi:
+
+  <CodeGroup variant="file">
+
+  ```html {title:index.html}
+  <div class="nav-link">Home</div>
+  <div class="nav-link">Projects</div>
+  <div class="nav-link">Blog</div>
+  ```
+
+  ```css {title:styles.css}
+  .nav-link {
+    @apply text-accent-600 flex h-9 items-center gap-1 rounded-xl px-2 text-[13px] font-bold;
+    @apply dark:text-accent-400 dark:font-semibold;
+
+    &:hover {
+      @apply text-accent-700;
+      @apply dark:text-accent-300;
     }
   }
-}
-```
+  ```
 
-- `meta`: total reactions from all users
-- `metaUser`: current user’s reactions
-- `metaSection`: reactions by section
+  </CodeGroup>
 
-> Why is `metaSection` an object instead of an array?
-> Just personal preference — easier to access directly using `metaSection[section]` rather than filtering an array 👀
+  Dengan begitu bisa mengurangi beban load HTML nya.
 
 ---
 
-### Component
+## Framer Motion
 
-**This part is the most fun for me.**
+Urusan peranimasian nih. Ngga dipake untuk bikin animasi yang complex, tapi basic-bacic aja, kaya fade-in fade-out.
 
-For API interaction, I used **SWR**:
+Pengalaman baru banget sih, bikin animasi pake JavaScript. Karena sebelumnya saya kalau bikin animasi selalu pake CSS.
 
-> "With SWR, components get a stream of updates automatically. The UI remains fast and reactive."
+Rasanya? Enak cuy. Hasilnya juga smooth. Karena pake JavaScript, jadi gampang juga kalau 'nganimasi' lewat events tertentu.
 
-I really love how simple the mutation flow is with SWR.
-
----
-
-Let’s talk about the Reactions component 🥳
-
-It includes:
-
-1. Display emojis for `claps`, `wow`, and `hmm`
-2. Hover animation for emojis
-3. Batch click animation
-4. Count animation when updated
-5. Swaps to a different emoji when reaction limit is reached
-
-I used [Animated Fluent Emoji](https://animated-fluent-emoji.vercel.app/) for the hover animations.
+Misal kaya `onClick`, `onScroll`, ketika component pertama dirender, atau bahkan ketika elementnya 'visible' di viewport.
 
 ---
 
-I also used **Framer Motion** for all animations 😍
+## Bonus Point
 
-When a user clicks a reaction, it creates a motion element using random `x` and `y` coordinates to animate. This makes repeated clicks feel more organic and non-repetitive.
+1. **Vercel**
 
-Confused? No worries — here’s the full code:
-👉 [EmojiReaction.tsx on GitHub](https://github.com/enjidev/girish.dev/blob/425e3c09c906c005a7e1d9efbf21b87906ffd443/apps/girish.dev/src/components/EmojiReaction.tsx)
+   Sebelumnya cuma pake GitHub pages, karena untuk hosting static pages aja (pake CRA). Sekarang saya pake Vercel untuk hosting proyek Next.js
 
----
+   > Vercel is the platform for frontend developers, providing the speed and reliability innovators need to create at the moment of inspiration.
+   >
+   > — [vercel.com/](https://vercel.com/)
 
-## Final Result
+   Setup deploymentnya ngga ribet, fast, fitur staging kaya development atau preview mode buat situsnya (ngga langsung deploy ke production), dan tentunya 'ada' versi gratisnya.
 
-Here’s the final result. Try giving reactions, hit the limit — you’ll see the animation 😁
-
-<div
-  style={{
-    maxWidth: '360px',
-    margin: 'auto',
-    marginTop: '32px',
-    marginBottom: '32px',
-  }}
->
-  <Reactions withCountView={false} />
-</div>
-
-There’s still room for improvement in styles, images, layout, and performance, but I’m happy with the current state.
+   Recommended hosting buat project Next.js, karena emang Next.js punyanya Vercel juga 😂
 
 ---
 
 ## Summary
 
-Building this feature was quite a challenge, especially the backend part, but I really enjoyed the process.
+Seneng dan enjoy aja sih pake Next.js, Tailwind CSS dan Framer Motion. Developer Experiencenya good banget, easy to use dan docsnya rapi.
 
-Here’s a recap of the tech stack:
+Meskipun terbilang baru nyoba, I think this tech stack is going to be my first choice when creating a website.
 
-- [MongoDB Atlas](https://www.mongodb.com/pricing) for database hosting
-- [Prisma](https://www.prisma.io/) as the ORM
-- [SWR](https://swr.vercel.app/) for API data fetching and caching
-- [Framer Motion](https://www.framer.com/motion/) for animations
-- [Animated Fluent Emoji](https://animated-fluent-emoji.vercel.app/) for emoji assets
-
----
-
-> WAIT… what about **section reactions**?
-
-Well, the API already supports `metaSection`, so the groundwork is done. I just haven’t implemented the frontend UI yet.
-
-But the plan is clear — stay tuned, maybe on [Twitter](https://twitter.com/enjidev).
-
-**THANK YOU** for reading till the end! See you next week in the next post 👋
+Udah mungkin segitu aja, jaga kesehatan dan sampai jumpa minggu depan 👋
