@@ -1,0 +1,217 @@
+---
+title: Tailwind CSS Best Practices
+lang: en-IN
+description: Tailwind CSS best practices, tips, and coding styles I personally follow to stay efficient and consistent.
+date: '2023-02-06'
+tags:
+  - tailwindcss
+  - best-practices
+category: tailwindcss
+caption: Best Practices
+---
+
+import { DnD, Dont, Do } from '@/components/mdx/TIL';
+import { QuickView } from '@/components/mdx/Link';
+import CodeGroup from '@/components/mdx/CodeGroup';
+
+Hello there! Already using or planning to try **Tailwind CSS**? Then you’ve landed at the right place. In this post, I’ll be sharing a few important practices and coding styles that have helped me use Tailwind CSS more comfortably and efficiently.
+
+Strictly speaking, these aren’t necessarily "best practices," but rather my personal approach and styling conventions — hopefully, you find something helpful.
+
+---
+
+## Coding Style
+
+Here’s how I structure my Tailwind CSS classes — I typically focus on three areas: sorting, splitting, and grouping.
+
+### Sorting
+
+Take a look at this `Button` component example — the class list is quite long 😂
+
+```html
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  Button Text
+</button>
+```
+
+When dealing with long utility chains, sorting classes becomes quite important.
+
+Thankfully, Tailwind CSS provides a [Prettier plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) that helps auto-sort these classes.
+
+Consistent class ordering makes future maintenance much easier.
+
+In the example above, `border` and `border-transparent` are next to each other, making it easier to modify border-related styles.
+
+Likewise, `hover:` and breakpoint-specific classes like `md:` are typically easier to locate when consistently placed.
+
+### Splitting
+
+To make things neater, I usually split the classes into multiple strings/lines. I personally use [clsx](https://github.com/lukeed/clsx) for this purpose.
+
+Here's a cleaner version of the same `Button` component:
+
+```tsx
+function Button({ children }) {
+  return (
+    <button
+      className={clsx(
+        'inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl',
+        'dark:bg-purple-600 dark:hover:bg-purple-500'
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+### Grouping
+
+Once split, grouping helps improve readability. Here’s the pattern I usually follow:
+
+- **Group 1:** Default utilities
+- **Group 2:** Breakpoints (e.g., `md:`)
+- **Group 3:** Dark mode variants
+- **Group 4:** Other variants like `hover:`
+
+Applied to the same button:
+
+```tsx
+function Button({ children }) {
+  return (
+    <button
+      className={clsx(
+        // group 1
+        'inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150',
+        // group 2
+        'md:rounded-xl',
+        // group 3
+        'dark:bg-purple-600 dark:hover:bg-purple-500',
+        // group 4
+        'hover:bg-purple-700'
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+The same applies when using CSS classes:
+
+```css
+.button {
+  /* group 1 */
+  @apply inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150;
+  /* group 2 */
+  @apply md:rounded-xl;
+  /* group 3 */
+  @apply dark:bg-purple-600 dark:hover:bg-purple-500;
+  /* group 4 */
+  @apply hover:bg-purple-700;
+}
+```
+
+Feel free to adjust or expand the groups based on your own preference — the key is consistency.
+
+---
+
+## Tips
+
+### Use Reusable Components
+
+If multiple elements share common styling (like buttons), consider extracting them into reusable components.
+
+Since I use React, I often write something like:
+
+```tsx
+function Button({ children }) {
+  return (
+    <button
+      className={clsx(
+        'inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150',
+        'md:rounded-xl',
+        'dark:bg-purple-600 dark:hover:bg-purple-500',
+        'hover:bg-purple-700'
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+### Use Class-Based Styling (for Static Sites)
+
+Especially useful when building static sites — utility-heavy HTML can become bloated quickly. Using class components can reduce output size.
+
+Here’s an example with multiple pagination buttons using repetitive styles:
+
+```html
+<button
+  class="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150 hover:bg-purple-700 md:rounded-xl dark:bg-purple-600 dark:hover:bg-purple-500"
+>
+  1
+</button>
+<!-- repeated for 2, 3, 4, etc. -->
+```
+
+Now, using a class component:
+
+<CodeGroup variant="file">
+
+```html {title:index.html}
+<button class="pagination-button">1</button>
+<button class="pagination-button">2</button>
+<!-- and so on -->
+```
+
+```css {title:styles.css}
+.pagination-button {
+  @apply inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-transparent bg-purple-600 px-4 text-center text-sm font-bold text-white transition duration-150;
+  @apply md:rounded-xl;
+  @apply dark:bg-purple-600 dark:hover:bg-purple-500;
+  @apply hover:bg-purple-700;
+}
+```
+
+</CodeGroup>
+
+I've already talked about this in a previous post — <QuickView href="/blog/about-nextjs-tailwind-css-and-framer-motion">see this section</QuickView> (HTML load performance).
+
+### Avoid `!important`
+
+Like in regular CSS, try to avoid using `!important` in Tailwind. It can lead to maintenance issues.
+
+Tailwind allows `!important` via the `!` prefix: `!p-2 !px-3`. Avoid overusing it.
+
+Once you start using it, it often creeps into other classes and becomes difficult to manage.
+
+### Conditional Class Names
+
+{/\* prettier-ignore-start \*/}
+
+<Dont>
+  ```tsx
+  <div className={`text-black ${dark && 'text-white'}`}>Hello, World!</div>
+  ```
+</Dont>
+<Do>
+  ```tsx
+  <div className={dark ? 'text-white' : 'text-black'}>Hello, World!</div>
+  ```
+</Do>
+
+{/\* prettier-ignore-end \*/}
+
+Let me explain.
+
+In the first example, if `dark` is true, the result is `text-black text-white` — which might cause issues since CSS specificity determines which one takes precedence.
+
+Depending on the build order, your text may still appear black even though `text-white` is present — because `text-black` might be loaded after it.
+
+Use ternary conditions to avoid this kind of issue.
+
+You can test this on [Tailwind Play](https://play.tailwindcss.com/iGRNZh3mOT).

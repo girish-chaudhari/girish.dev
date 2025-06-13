@@ -1,0 +1,277 @@
+---
+title: Multiple Reactions Feature
+description: Building a multiple reactions feature 👏😲🧐 in Next.js (MongoDB, Prisma, SWR)
+date: '2023-01-15'
+lang: en
+tags:
+  - features
+  - concept
+category: features
+---
+
+import IH from '@/components/mdx/InlineHighlight';
+import Reactions from '@/components/Reactions';
+
+[TL;DR](#final-result)
+
+I didn’t expect that building this feature alone would take nearly three days — but then again, I did start from scratch. Yes, this article is **just** about building a reactions feature, the one you see below 😁
+
+I didn’t start with proper analysis. I jumped straight into database creation, trial & error, and a bunch of refactoring. Not because I couldn’t — just didn’t want to wait. I really just wanted to start coding 😂
+
+In this article, I’ll break down what this feature includes and the design concept — but this won’t be a step-by-step tutorial.
+
+Hopefully, this gives you inspiration or a base if you ever plan to implement something similar. Take whatever you find useful!
+
+Let’s dive right in…
+
+---
+
+## Features
+
+The first step was to imagine what this reactions feature should look like at a high level.
+
+Here’s what I came up with:
+
+- **Multiple Reactions**
+
+  There are <IH>claps</IH>, <IH color="blue">wow</IH>, etc. The goal is to make adding new reactions easy in the future.
+
+  <br />
+
+- **Batch Reactions**
+
+  Users can give multiple reactions of the same type, e.g. 20x <IH>claps</IH>, 10x <IH color="blue">wow</IH>, etc.
+
+  <br />
+
+- **Section Reactions**
+
+  The system should track where in the article a user reacted, e.g. 10x <IH>claps</IH> under the section titled **'Features'** (like this one).
+
+  <br />
+
+---
+
+## Concept
+
+Most of the time went into building the REST API, a lot of refactoring, and designing the database schema — essentially the backend work.
+
+Please note: I’m not a backend specialist, so some things may not be optimal ✌
+
+### Database
+
+Honestly, this was my first time working with databases again in three years. The last time was during my final year university project.
+
+First, I chose where to host the DB. I wasn’t particular about SQL vs NoSQL. I was open to experimenting, so I looked for free options and found **MongoDB Atlas** — the shared tier, which is good enough.
+
+For the ORM, I used **Prisma** — which should make future migrations to a different DB much easier.
+
+Let’s go through the schema. We’ll focus only on the reactions-related structure. I also track `views` and `shares`, but I’ve omitted them here.
+
+First, a `ContentMeta` table to store post-related data.
+
+Since posts are built locally from MDX files, I don’t store titles, dates, or body content. Just the slug.
+
+```ts
+model ContentMeta {
+  id        String
+  slug      String
+  createdAt DateTime
+}
+```
+
+The main table for reactions is this:
+
+```ts
+model Reaction {
+  id          String
+  type        ReactionType
+  section     String
+  count       Int
+  sessionId   String
+  createdAt   DateTime
+  contentId   String
+}
+
+enum ReactionType {
+  CLAPPING
+  THINKING
+  AMAZED
+}
+```
+
+Explanation:
+
+- `type`:
+  This defines the type of reaction. I used a predefined enum `ReactionType` with values like `CLAPPING`, `THINKING`, and `AMAZED`.
+
+  You can add more by extending the enum. Alternatively, you could use a `String` if you want full emoji support.
+
+  > Why not use a separate relation table for types?
+  > You could, but I wanted simpler queries and to benefit from enum type safety ✌
+
+- `section`:
+  Stores the title of the section that was active when the user clicked the reaction.
+
+  I use [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to observe headings, and the last intersecting one is assigned here.
+
+- `count`:
+  This is for batching. Clicking doesn't immediately hit the API. It waits a few milliseconds and sends a single batch request.
+
+  For example, 10 clicks within a short time get bundled as `count: 10`.
+
+  This is more efficient — fewer requests, less DB storage.
+
+- `sessionId`:
+  Identifies the user anonymously using their IP address.
+
+  However, I **don’t** store raw IPs. I hash them, and salt them too, for extra privacy. Even I can’t see the original IP.
+
+  Sample code:
+
+  ```ts
+  export const getSessionId = (req: NextApiRequest) => {
+    const ipAddress = req.headers['x-forwarded-for'] || 'localhost';
+
+    const currentSessionId = createHash('md5')
+      .update(ipAddress + process.env.SALT_IP_ADDRESS, 'utf-8')
+      .digest('hex');
+
+    return currentSessionId;
+  };
+  ```
+
+  Source: [GitHub helper](https://github.com/enjidev/girish.dev/blob/425e3c09c906c005a7e1d9efbf21b87906ffd443/apps/girish.dev/src/helpers/server.ts)
+
+  > Why do you need `sessionId`?
+  > It’s used to **limit** how many reactions a user can give. I group reactions by `type` and `sessionId`, sum up the `count`, and enforce a cap.
+
+---
+
+### REST API
+
+I only created one endpoint: `/reactions` with `POST` method. It receives `slug`, `type`, `section`, and `count`.
+
+The frontend handles all data except for `sessionId`, which is generated during the API call.
+
+One more endpoint `/content` returns all current reactions for a given `slug`, structured like this:
+
+```json
+{
+  "meta": {
+    "reactionsDetail": {
+      "CLAPPING": 65,
+      "THINKING": 45,
+      "AMAZED": 48
+    }
+  },
+  "metaUser": {
+    "reactionsDetail": {
+      "CLAPPING": 15,
+      "THINKING": 15,
+      "AMAZED": 15
+    }
+  },
+  "metaSection": {
+    "features": {
+      "reactionsDetail": {
+        "CLAPPING": 0,
+        "THINKING": 4,
+        "AMAZED": 0
+      }
+    },
+    "database": {
+      "reactionsDetail": {
+        "CLAPPING": 0,
+        "THINKING": 0,
+        "AMAZED": 6
+      }
+    }
+  }
+}
+```
+
+- `meta`: total reactions from all users
+- `metaUser`: current user’s reactions
+- `metaSection`: reactions by section
+
+> Why is `metaSection` an object instead of an array?
+> Just personal preference — easier to access directly using `metaSection[section]` rather than filtering an array 👀
+
+---
+
+### Component
+
+**This part is the most fun for me.**
+
+For API interaction, I used **SWR**:
+
+> "With SWR, components get a stream of updates automatically. The UI remains fast and reactive."
+
+I really love how simple the mutation flow is with SWR.
+
+---
+
+Let’s talk about the Reactions component 🥳
+
+It includes:
+
+1. Display emojis for `claps`, `wow`, and `hmm`
+2. Hover animation for emojis
+3. Batch click animation
+4. Count animation when updated
+5. Swaps to a different emoji when reaction limit is reached
+
+I used [Animated Fluent Emoji](https://animated-fluent-emoji.vercel.app/) for the hover animations.
+
+---
+
+I also used **Framer Motion** for all animations 😍
+
+When a user clicks a reaction, it creates a motion element using random `x` and `y` coordinates to animate. This makes repeated clicks feel more organic and non-repetitive.
+
+Confused? No worries — here’s the full code:
+👉 [EmojiReaction.tsx on GitHub](https://github.com/enjidev/girish.dev/blob/425e3c09c906c005a7e1d9efbf21b87906ffd443/apps/girish.dev/src/components/EmojiReaction.tsx)
+
+---
+
+## Final Result
+
+Here’s the final result. Try giving reactions, hit the limit — you’ll see the animation 😁
+
+<div
+  style={{
+    maxWidth: '360px',
+    margin: 'auto',
+    marginTop: '32px',
+    marginBottom: '32px',
+  }}
+>
+  <Reactions withCountView={false} />
+</div>
+
+There’s still room for improvement in styles, images, layout, and performance, but I’m happy with the current state.
+
+---
+
+## Summary
+
+Building this feature was quite a challenge, especially the backend part, but I really enjoyed the process.
+
+Here’s a recap of the tech stack:
+
+- [MongoDB Atlas](https://www.mongodb.com/pricing) for database hosting
+- [Prisma](https://www.prisma.io/) as the ORM
+- [SWR](https://swr.vercel.app/) for API data fetching and caching
+- [Framer Motion](https://www.framer.com/motion/) for animations
+- [Animated Fluent Emoji](https://animated-fluent-emoji.vercel.app/) for emoji assets
+
+---
+
+> WAIT… what about **section reactions**?
+
+Well, the API already supports `metaSection`, so the groundwork is done. I just haven’t implemented the frontend UI yet.
+
+But the plan is clear — stay tuned, maybe on [Twitter](https://twitter.com/enjidev).
+
+**THANK YOU** for reading till the end! See you next week in the next post 👋

@@ -1,0 +1,142 @@
+---
+title: My Experience with Next.js, Tailwind CSS, and Framer Motion 🔥
+description: Sharing my early impressions after three months of using Next.js, Tailwind CSS, and Framer Motion.
+date: '2023-01-22'
+lang: en
+tags:
+  - next
+  - tailwindcss
+  - framer-motion
+category: story
+---
+
+import CodeGroup from '@/components/mdx/CodeGroup';
+import { QuickView } from '@/components/mdx/Link';
+
+Hello everyone! It's already been a week since my last post, [Multiple Reactions in Next.js](/blog/multiple-reactions-feature-in-nextjs).
+
+This time, instead of discussing new features, I want to share my thoughts and experience after using **Next.js**, **Tailwind CSS**, and **Framer Motion** for about three months.
+
+Yes, three months! These were the technologies I explored for the **first time** while building this website, which I started around 23rd October 2022.
+
+I’m just sharing from my personal perspective here, not comparing them with similar tech stacks since I haven’t used the others extensively.
+
+Let’s dive in.
+
+---
+
+## Next.js
+
+Before this, I used to create React websites using CRA (Create React App). I switched to Next.js for this project.
+
+Honestly, Next.js is incredibly convenient. It offers all the features I need out-of-the-box, has great documentation, and the developer experience is smooth.
+
+Some standout features:
+
+### Routing
+
+Routing is built-in, including dynamic routes which are perfect for blogs and similar use-cases.
+
+My favourite part? **API Routes**. You can create API endpoints directly without needing to set up Express.
+
+### MDX Support
+
+Very easy to integrate Markdown and MDX using `@next/mdx`, perfect for blog content or even standard pages.
+
+### Optimization
+
+Fonts and images are optimised by default. You can import Google Fonts easily using `@next/font`, and the Image component provides built-in compression and responsive handling.
+
+Plus, other features like fast compiling, i18n routing, and static HTML export are super handy.
+
+Explore their [documentation](https://nextjs.org/docs/getting-started) or just try it out.
+
+---
+
+## Tailwind CSS
+
+At first, Tailwind CSS looked odd to me. The styling approach felt cluttered.
+
+> “Why is the HTML so messy? Isn’t this similar to inline styles?”
+
+But I had to use it for a freelance project — and I gradually started appreciating it.
+
+Here’s what I love:
+
+- **Write style next to markup** — No need to jump between CSS and HTML files.
+- **It’s not inline styles** — You get full control with hover, focus, and responsive styles directly in HTML.
+- **Full CSS support** — Gradients, grid, responsive breakpoints, and more are all covered.
+- **Editor support** — Extensions like Tailwind Intellisense make writing classes much easier.
+- **Shorthand utilities** — Use `inset-0`, `px-4`, `border-y` and more.
+- **Dark mode support** — Just use the `dark:` variant.
+- **Smaller final CSS** — Only used classes are bundled.
+
+What I didn’t like:
+
+- **Long class names** — I solved this with `clsx()` to keep things readable.
+
+```tsx
+<nav
+  className={clsx(
+    'border-divider-light rounded-xl border bg-white',
+    'dark:border-divider-dark dark:bg-slate-900'
+  )}
+></nav>
+```
+
+- **Heavy HTML** — More classes mean heavier HTML, but you can extract repeated styles using `@apply`.
+
+<CodeGroup variant="file">
+
+```html {title:index.html}
+<div class="nav-link">Home</div>
+<div class="nav-link">Projects</div>
+<div class="nav-link">Blog</div>
+```
+
+```css {title:styles.css}
+.nav-link {
+  @apply text-accent-600 flex h-9 items-center gap-1 rounded-xl px-2 text-[13px] font-bold;
+  @apply dark:text-accent-400 dark:font-semibold;
+
+  &:hover {
+    @apply text-accent-700;
+    @apply dark:text-accent-300;
+  }
+}
+```
+
+</CodeGroup>
+
+---
+
+## Framer Motion
+
+When it comes to animations, I previously only used CSS. Framer Motion was my first time animating with JavaScript.
+
+I started with simple transitions like fade-in/fade-out. The API is intuitive and the results are smooth.
+
+It’s very flexible — you can animate onClick, onScroll, when a component enters the viewport, and more.
+
+---
+
+## Bonus: Hosting on Vercel
+
+I previously used GitHub Pages. Now I host all my Next.js projects on **Vercel**.
+
+- Easy deployment
+- Preview environments
+- Fast builds
+- Free plan
+
+Highly recommended for Next.js apps — especially since Vercel is built by the same creators of Next.js.
+
+---
+
+## Summary
+
+I genuinely enjoyed working with Next.js, Tailwind CSS, and Framer Motion. Despite being new to this stack, it quickly became my go-to setup for personal and freelance projects.
+
+The developer experience is modern, smooth, and productive.
+
+Thanks for reading! Stay healthy and see you in the next post 👋

@@ -46,7 +46,7 @@ export const formatDateISO = (date: string) => {
 export const formatLang = (lang: TPostFrontMatter['lang']) => {
   switch (lang) {
     case 'id':
-      return 'Bahasa Indonesia';
+      return 'English(India)';
     case 'en':
       return 'English';
     default:
