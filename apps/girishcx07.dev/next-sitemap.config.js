@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://www.girish.dev',
+  siteUrl: 'https://girishcx07.vercel.app',
   priority: 0.6,
   generateRobotsTxt: true,
   generateIndexSitemap: false,
