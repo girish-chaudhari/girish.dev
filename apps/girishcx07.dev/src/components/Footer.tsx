@@ -8,7 +8,7 @@ import dayjs from '@/utils/dayjs';
 function LastUpdate() {
   return (
     <a
-      href="https://github.com/girishc0007/girish.dev"
+      href="https://github.com/girishcx07/girish.dev"
       target="_blank"
       rel="noreferrer nofollow"
       className={clsx('hover:underline')}
@@ -28,17 +28,17 @@ interface FooterLinkProps {
 export const FOOTER_ICONS = [
   {
     name: 'Twitter',
-    href: 'https://twitter.com/girishc0007',
+    href: 'https://twitter.com/girishcx07',
     icon: <TwitterIcon className={clsx('h-5 w-5')} />,
   },
   {
     name: 'GitHub',
-    href: 'https://github.com/girishc0007',
+    href: 'https://github.com/girishcx07',
     icon: <GitHubIcon className={clsx('h-5 w-5')} />,
   },
   // {
   //   name: 'Figma',
-  //   href: 'https://figma.com/@girishc0007',
+  //   href: 'https://figma.com/@girishcx07',
   //   icon: <FigmaIcon className={clsx('h-5 w-5')} />,
   // },
 ];
@@ -216,7 +216,7 @@ function Footer() {
                     },
                     {
                       title: 'Source Code',
-                      href: 'https://github.com/girishc0007/girish.dev',
+                      href: 'https://github.com/girishcx07/girishcx07.dev',
                       isInternal: false,
                     },
                     // {

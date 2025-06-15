@@ -14,7 +14,7 @@ module.exports = {
   rules: {
     '@next/next/no-html-link-for-pages': [
       'error',
-      'apps/girish.dev/src/pages/',
+      'apps/girishcx07.dev/src/pages/',
     ],
     'no-underscore-dangle': ['error', { allow: ['_count', '_sum'] }],
     'import/extensions': 'off',

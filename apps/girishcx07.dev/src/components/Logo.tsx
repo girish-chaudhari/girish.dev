@@ -28,12 +28,16 @@ function Logo({ active = false }: LogoProps) {
       </div>
       <div className={clsx('-mt-1 hidden text-xl', 'sm:block')}>
         <span className={clsx('text-slate-900', 'dark:text-slate-200')}>
-          girishc.
-          {/* <sup className="text-xs">0007</sup> */}
+          girishc
+          <sup
+            className={clsx('text-accent-600 text-xs', 'dark:text-accent-500')}
+          >
+            07
+          </sup>
         </span>
-        <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
+        {/* <span className={clsx('text-accent-600', 'dark:text-accent-500')}>
           dev
-        </span>
+        </span> */}
       </div>
     </div>
   );
