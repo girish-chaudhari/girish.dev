@@ -6,8 +6,8 @@ The following steps will get you up and running to contribute to this repository
 2. Clone your fork locally:
 
    ```bash
-   git clone https://github.com/<your_github_username>/girish.dev.git
-   cd girish.dev
+   git clone https://github.com/<your_github_username>/girishcx07.dev.git
+   cd girishcx07.dev
    ```
 
 3. Install all dependencies using `pnpm`:
