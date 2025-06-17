@@ -38,7 +38,7 @@ function App({ Component, pageProps, router }: AppPropsWithLayout) {
       <RootLayout>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {getLayout(<Component {...pageProps} />)}
-        <GoogleAnalytics gaId="G-FB9QLDNKNN" />
+        {/* <GoogleAnalytics gaId="G-FB9QLDNKNN" /> */}
       </RootLayout>
     </Provider>
   );
