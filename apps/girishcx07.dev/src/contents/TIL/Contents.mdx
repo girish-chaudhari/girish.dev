@@ -35,7 +35,7 @@ import TIL from '@/components/mdx/TIL';
       <TIL.ItemTag>css</TIL.ItemTag>
     </TIL.ItemTags>
 
-    Backdrop filter tidak akan berhasil jika parent memiliki efek backdrop-filter juga.
+    Backdrop filter will not work if the parent also has a backdrop-filter effect.
 
     [issue](https://bugs.chromium.org/p/chromium/issues/detail?id=993644) &mdash; [workaround](https://stackoverflow.com/questions/60997948/backdrop-filter-not-working-for-nested-elements-in-chrome)
 
@@ -55,9 +55,9 @@ import TIL from '@/components/mdx/TIL';
       <TIL.ItemTag>flex</TIL.ItemTag>
     </TIL.ItemTags>
 
-    Pernah pake `overflow-x: scroll` pada `pre` element tapi ngga ngaruh, malah parent yang ada scrollnya?
+    Ever used `overflow-x: scroll` on a `pre` element but it didn't work, and the parent had the scrollbar instead?
 
-    Mungkin parentnya didalem `display: flex`. Kalau iya, coba tambahin `min-width: 0` pada parentnya.
+    Maybe the parent is inside a `display: flex`. If so, try adding `min-width: 0` to the parent.
 
     [Credit](https://weblog.west-wind.com/posts/2016/feb/15/flexbox-containers-pre-tags-and-managing-overflow)
 
@@ -65,23 +65,23 @@ import TIL from '@/components/mdx/TIL';
 
   <TIL.Item>
 
-    ## import mdx file sebagai component
+    ## import mdx file as a component
 
     <TIL.ItemTags>
       <TIL.ItemTag>react</TIL.ItemTag>
       <TIL.ItemTag>mdx</TIL.ItemTag>
     </TIL.ItemTags>
 
-    Import mdx file di component, caranya mirip seperti import component biasa:
+    To import an mdx file into a component, the method is similar to importing a regular component:
 
     ```ts {copy:false} {footer:false}
     import Contents from '@/mdx/Contents.mdx';
 
-    // Penggunaan
+    // Usage
     <Contents />
     ```
 
-    Ternyata ada di [dokumentasinya](https://mdxjs.com/docs/using-mdx/#mdx-content). Biasakan membaca dulu ya gais jangan kaya saya wkwk.
+    Turns out it’s in the [documentation](https://mdxjs.com/docs/using-mdx/#mdx-content). Make a habit of reading it first guys, don’t be like me lol.
 
   </TIL.Item>
 
@@ -94,9 +94,9 @@ import TIL from '@/components/mdx/TIL';
       <TIL.ItemTag>selector</TIL.ItemTag>
     </TIL.ItemTags>
 
-    Pake `:not()` ini emang agak tricky, salah penggunaan hasilnya juga bisa ngga sesuai harapan.
+    Using `:not()` is quite tricky, using it incorrectly can yield unexpected results.
 
-    Contoh, styling inline `code` dimana bukan children dari `pre` ataupun `.code-block`. Penggunaannya:
+    Example, styling inline `code` that is not a child of `pre` or `.code-block`. Use it like this:
 
     <TIL.DnD>
       <TIL.Dont>
@@ -140,9 +140,9 @@ import TIL from '@/components/mdx/TIL';
     },
     ```
 
-    `dependsOn` dengan ^ menandakan task dari package lain, sedangkan yang tanpa ^ task dari package itu sendiri.
+    `dependsOn` with ^ means a task from another package, while without ^ means a task from the same package.
 
-    Misal: app A pas mau build harus running tasks `lint` di semua package dependenciesnya, dan juga harus running task `test` app A itu sendiri.
+    Example: when building app A, it must run the `lint` task on all of its dependency packages, and also run its own `test` task.
 
   </TIL.Item>
 
@@ -159,7 +159,7 @@ import TIL from '@/components/mdx/TIL';
       <TIL.ItemTag>js</TIL.ItemTag>
     </TIL.ItemTags>
 
-    Pakai `e.target.valueAsNumber` untuk otomatis mengembalikan nilai input sebagai number. Tidak perlu `parseInt(e.target.value)` lagi.
+    Use `e.target.valueAsNumber` to automatically return the input value as a number. No need for `parseInt(e.target.value)` anymore.
 
   </TIL.Item>
 
